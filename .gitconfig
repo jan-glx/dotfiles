@@ -1,0 +1,58 @@
+[http]
+	proxy = http://www-int.dkfz-heidelberg.de:80
+	sslVerify = true
+[push]
+	default = simple
+[user]
+	name = Jan Gleixner
+	email = jan.gleixner@gmail.com
+[credential]
+	helper = store
+[core]
+	excludesfile = ~/.gitignore
+[pack]
+	threads = 8
+[diff "bz2"]
+  binary = true
+  textconv = /bin/bzcat
+[diff "gzip"]
+  binary = true
+  textconv = /bin/zcat
+[diff "tar"]
+  binary = true
+  textconv = tar --to-stdout -xf 
+[diff "tar-bz2"]
+  binary = true
+  textconv = tar --to-stdout -xjf
+[diff "zip"]
+  binary = true
+  textconv = unzip -p
+[core]
+  attributesFile = ~/.gitattributes
+	preloadIndex = true
+	untrackedCache = true
+	fsmonitor = false
+
+[rerere]
+	enabled = true
+[diff]
+	wordDiff = true
+[alias]
+	df = diff --word-diff
+
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only  --features=interactive
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    max-line-length = 5000
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default

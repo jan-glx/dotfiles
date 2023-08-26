@@ -1,0 +1,4 @@
+#source ~/.bashrc
+# tmux new-session -A -s $RSTUDIO_PROJ_NAME
+#tmux attach -dt rstudio-${RSTUDIO_SESSION_ID} 2> /dev/null || tmux new-session -s rstudio-${RSTUDIO_SESSION_ID} -t rstudio-${RSTUDIO_PROJ_NAME}
+
