@@ -2,7 +2,8 @@
 if [ -f /etc/profile ]; then
   . /etc/profile
 fi
-export TEST=".profile:$TEST"
+export TEST=".profile("$(date --iso="second")"):$TEST"
+
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -23,7 +24,7 @@ export JAVA_TOOL_OPTIONS+=" -Djava.net.useSystemProxies=true"
 export LD_LIBRARY_PATH=$HOME/local/lib:$LD_LIBRARY_PATH
 export MANPATH=$HOME/local/share/man:$MANPATH
 
-export PERL5LIB="/home/gleixner/perl5/lib/perl5:$PERL5LIB"
+export PERL5LIB="$HOME/perl5/lib/perl5:$PERL5LIB"
 
 MODULEPATH=${MODULEPATH}:$HOME/B260/software/modules/packages
 MODULEPATH=${MODULEPATH}:$HOME/B260/software/modules/meta_modules
@@ -49,16 +50,11 @@ module load imagemagick/7.1.0-gcc-11.1.0 # for ggforce & R's imagemagick package
 #export USE_SYSTEM_LIBGIT2=1 # for R package gert
 
 if ps -e | grep -q rserver; then                                                                                                 
-  # code below is from experiment trying to use conda on rstudio server. DONT DO THIS.
-  #conda activate myR                                                                                                            
-  #py36                                                                                                                          
-  #conda activate forrss                                                                                                         
-  #env > env.txt                                                                                                                 
-  #if test $CONDA_PREFIX; then                                                                                                   
   R_VERSION=${R_HOME##*/r/}                                                                                                   
   R_VERSION=${R_VERSION%/lib64/R}
   MC_CORES=1
 else
+  MANPATH=$MANPATH:
   module load pandoc/2.2.1 # to generate pdfs in R/python (equivalent loaded on Rstudio server anyways)
   R_VERSION=4.1.0
   MC_CORES=4
@@ -67,12 +63,10 @@ module load R/$R_VERSION
 export R_LIBS_USER=~/R/x86_64-pc-linux-gnu-library/${R_VERSION}d
 export R_HOME=$(realpath $(dirname `which R`)/../lib64/R)  
 
-# no longer needed since: conda config --set auto_activate_base false
-## don't load conda on start up as it might slow down log in  or interfer with R                                             
-## you will have to type load_conda once per session to be able to use conda commands                                                                                    
 
 export LANGUAGE=en_US.UTF-8
 export LANG=en_US.UTF-8
-export LC_ALL=en_US.UTF-8
+#export LC_ALL=en_US.UTF-8
+export LC_TIME=en_DK.UTF-8
 
 

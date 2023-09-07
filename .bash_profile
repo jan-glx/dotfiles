@@ -1,19 +1,27 @@
 # Source global definition
-if [ -f .profile ]; then
-  . .profile
+[[ -r ~/.profile ]] && . ~/.profile
+if [ -n "$BASH_VERSION" -a -n "$PS1" ]; then
+    # include .bashrc if it exists
+    if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+    fi
 fi
-[[ -r ~/.bashrc ]] && . ~/.bashrc
-export TEST=".bashprofile:$TEST"
 
-export PS1="\[\033[01;33m\h:${LSB_JOBID}:\w\033[00m\n\$ "                                                                                     
+export TEST=".bash_profile("$(date --iso="second")"):$TEST"
+
                                                                                                                                  
-export HISTSIZE=100000                   # big big history                                                                       
-export HISTFILESIZE=100000               # big big history                                                                       
+HISTSIZE=100000                   # big big history                                                                       
+HISTFILESIZE=100000               # big big history                                                                       
 shopt -s histappend                      # append to history, don't overwrite it                                                 
-export POMPT_COMMAND='$PROMPT_COMMAND; history -a; history -n' # write an reload history on every command
+
+#PROMPT_COMMAND="history -a ; history -n ; $PROMPT_COMMAND" # write an reload history on every command
+PROMPT_COMMAND='rm -f ${HISTFILE}.$$.last ; touch ${HISTFILE}.$$.last && history -a ${HISTFILE}.$$.last && cat ${HISTFILE}.$$.last | tee -a ${HISTFILE} >> ${HISTFILE}.$$  ; history -c ; history -r ${HISTFILE} ; history -r ${HISTFILE}.$$ ; '"$PROMPT_COMMAND"
+
+
 prepare_tapestri () {
   module remove samtools/1.9 bwa-mem2/2.2.1 hdf5/1.8.18
-  . ~/software/tapestri_v2.0.2/load_tapestri_conda.sh  
+  . ~/software/tapestri_v2.0.2/load_tapestri_conda.sh 
+  export PYTHONNOUSERSITE=1 
 }
 
 # no longer needed since: conda config --set auto_activate_base false
